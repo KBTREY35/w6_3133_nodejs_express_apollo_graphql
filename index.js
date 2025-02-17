@@ -1,45 +1,49 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-//import ApolloServer
-
-
-//Store sensitive information to env variables
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('@apollo/server/express4');
 const dotenv = require('dotenv');
+
+const typeDefs = require('./schema');
+const resolvers = require('./resolvers');
+
 dotenv.config();
 
-//mongoDB Atlas Connection String
-const mongodb_atlas_url = process.env.MONGODB_URL;
+const mongodb_atlas_url = process.env.MONGODB_URL || "mongodb://localhost:27017/moviesDB";
 
-//TODO - Replace you Connection String here
-const connectDB = async() => {
-    try{
-      mongoose.connect(mongodb_atlas_url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      }).then(success => {
-        console.log('Success Mongodb connection')
-      }).catch(err => {
-        console.log('Error Mongodb connection')
-      });
-    } catch(error) {
-        console.log(`Unable to connect to DB : ${error.message}`);
-      }
-  }
+const connectDB = async () => {
+    try {
+        await mongoose.connect(mongodb_atlas_url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log('Success: MongoDB connected');
+    } catch (error) {
+        console.error('Error: MongoDB connection failed', error);
+    }
+};
 
-//Define Apollo Server
+async function startApolloServer() {
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers
+    });
 
+    await server.start();
 
-//Define Express Server
-const app = express();
-app.use(express.json());
-app.use('*', cors());
+    const app = express();
+    app.use(express.json());
+    app.use(cors());
 
-//Add Express app as middleware to Apollo Server
+    app.use('/graphql', expressMiddleware(server));
 
+    connectDB();
 
-//Start listen 
-app.listen({ port: process.env.PORT }, () => {  
-  console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
-  connectDB()
-});
+    const PORT = process.env.PORT || 4000;
+    app.listen(PORT, () => {
+        console.log(`Server ready at http://localhost:${PORT}/graphql`);
+    });
+}
+
+startApolloServer();

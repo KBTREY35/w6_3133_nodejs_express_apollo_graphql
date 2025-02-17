@@ -1,24 +1,29 @@
-{
-    "id": '1',
-    "name": 'Inception',
-    "director_name": 'Christopher Nolan',
-    "production_house": 'Warner Bros.',
-    "release_date": '2010-07-16',
-    "rating": 8.8,
+[
+  {
+    "id": "1",
+    "title": "Inception",
+    "director": "Christopher Nolan",
+    "production_house": "Warner Bros.",
+    "release_date": "2010-07-16",
+    "genre": "Sci-Fi",
+    "rating": 8.8
   },
   {
-    "id": '2',
-    "name": 'The Matrix',
-    "director_name": 'Wachowskis',
-    "production_house": 'Warner Bros.',
-    "release_date": '1999-03-31',
-    "rating": 8.7,
+    "id": "2",
+    "title": "The Matrix",
+    "director": "Wachowskis",
+    "production_house": "Warner Bros.",
+    "release_date": "1999-03-31",
+    "genre": "Sci-Fi",
+    "rating": 8.7
   },
   {
-    "id": '3',
-    "name": 'The Dark Knight',
-    "director_name": 'Christopher Nolan',
-    "production_house": 'Warner Bros.',
-    "release_date": '2008-07-18',
-    "rating": 9.0,
+    "id": "3",
+    "title": "The Dark Knight",
+    "director": "Christopher Nolan",
+    "production_house": "Warner Bros.",
+    "release_date": "2008-07-18",
+    "genre": "Action",
+    "rating": 9.0
   }
+]
